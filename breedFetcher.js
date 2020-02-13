@@ -1,18 +1,11 @@
 const request = require("request");
+ 
+// creating a function after the fact
+const fetchBreedDescription = function(breedName, callback) {
 
-const userInput = process.argv.splice(2);
-const requestGETApi = "https://api.thecatapi.com/v1/breeds/search" + "?q=" + userInput;
+  let fullURL = "https://api.thecatapi.com/v1/breeds/search?q=" + breedName;
 
-request(requestGETApi, (error, response, body) => {
-  if (error) {
-    console.log("unable to reach api\n", "error name: ", error.name, "error mssg: ", error.message);
-  } else {
-    let apiArray = JSON.parse(body);
+  return request(fullURL, callback);
+};
 
-    if (apiArray[0]) {
-      console.log(apiArray[0].description);
-    } else {
-      console.log("The cat breed you are trying to search is invalid :(");
-    }
-  }
-});
+module.exports = { fetchBreedDescription };
